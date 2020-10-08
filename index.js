@@ -13,8 +13,8 @@ The function should:
   2. Create and return an object using the received values  
 */
 
-function createMenuItem(/*Your code here*/){
-    /*Your code here*/
+function createMenuItem(name, price, category) { 
+  return {name, price, category};
 }
 
 /* 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 Task 1b: 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀
@@ -25,7 +25,11 @@ Test your createMenuItems function by doing the following:
   
   For example: createMenuItem("pizza",5,"lunch") would return this as the object: {name:"Pizza",price:5,category:"lunch"}
 */
-
+console.log (
+  createMenuItem('Panini', 6.5, 'Sandwitch'),
+  createMenuItem('Large Cheese Pizza', 11.25, 'Pizzas'),
+  createMenuItem('Large Cheese Pizza', 11.25, 'Pizzas')
+);
 
 
 /* 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 Task 2: 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀
@@ -45,7 +49,15 @@ export const burger = {
   name: "Burger", 
   price: 18, 
   category: "Lunch", 
-  /*Your code here*/
+  discount: function(custormerType) {
+    if (custormerType === 'teacher') {
+      return this.price - (this.price * 0.25);
+    } else if (custormerType === 'student') {
+      return this.price - (this.price * 0.10);
+    } else {
+      return this.price; //or return null?
+    }
+  }
 }
 
 
@@ -67,8 +79,21 @@ Using the reviews array above:
   1. log only Julius' feedback to the console
 */
 
+function findFeedbackByName(reviews, name, setFeedback) { //finds review throught the name. Optional 3rd paramenter to change name's feedback
+  let feedback;
+  for (let obj of reviews) {
+    if (obj.name === name) {
+      if (setFeedback) {
+        obj.feedback = setFeedback;
+        return reviews;
+      }
+      feedback = obj.feedback;
+    }
+  }
+  return feedback;
+}
 
-
+console.log(findFeedbackByName(reviews, 'Julius'));
 
 /* 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 Task 4: 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀
 Using the reviews array above do the following:
@@ -76,7 +101,13 @@ Using the reviews array above do the following:
   2. log the whole array to the console, make sure the new review is inside of it   
 */
 
+function addReview(reviews, newName, newRating, newFeedback) {
+  const newReview = {newName, newRating, newFeedback};
+  reviews.push(newReview);
+  return reviews;
+}
 
+console.log(addReview(reviews, 'John', 3.5, 'This Italian food was waaaaay too spicy. Great spagget tho!'));
 
 /* 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 Task 5: 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 
 Reyna's feedback is missing! Use what you know to do the following:
@@ -84,7 +115,7 @@ Reyna's feedback is missing! Use what you know to do the following:
   2. log the reviews array to the console to check your work
 */
 
-
+console.log(findFeedbackByName(reviews, 'Reyna', "this place is chill with really cool people, great for getting work done on weekdays"));
 
 
 
@@ -98,8 +129,8 @@ Use the getReviewByIndex function below to do the following:
 */
 
 
-function getReviewByIndex(/*Your code here*/) {
-  /*Your code here*/
+function getReviewByIndex(reviews, i) {
+  return `${reviews[i].name} gave the restaurant a ${reviews[i].rating} star review, and their feedback was: ${reviews[i].feedback}`;
 }
 
 
@@ -116,8 +147,8 @@ Use the getLastReview function below to do the following:
 */
 
 
-function getLastReview(/*Your code here*/) {
-  /*Your code here*/
+function getLastReview(reviews) {
+  return `${reviews[reviews.length - 1].name} gave the restaurant a ${reviews[reviews.length - 1].rating} star review, and their feedback was: ${reviews[reviews.length - 1].feedback}`;
 } 
 
 
@@ -138,11 +169,18 @@ Use the getReviewsByRating function below to do the following:
   ]
 */
 
- function getReviewByRating(/* code here */) {
-    /* code here */
+function getReviewByRating(rev, rating) {
+  let goodReviews = [];
+  for (let obj of rev) {
+    if (obj.rating >= rating) {
+      goodReviews.push(obj);
+    }
   }
+  return goodReviews;
+}
 
-  
+console.log(getReviewByRating(reviews, 4));  
+
 /* 💪💪💪💪💪💪💪💪💪💪 STRETCH 2: 💪💪💪💪💪💪💪💪💪💪   
 Use the getLongReviews function below to do the following:
   1. Receive the array that holds all the reviews
@@ -156,9 +194,15 @@ Use the getLongReviews function below to do the following:
   ]
 */
 
-function getLongReviews(/* code here */) {
-    /* code here */
+function getLongReviews(rev, numWords) {
+  let longReviews = [];
+  for (let obj of rev) {
+    if (obj.feedback.split(' ').length > numWords) {
+      longReviews.push(obj);
+    }
   }
+  return longReviews;
+}
   
 
 /* 💪💪💪💪💪💪💪💪💪💪 STRETCH 3: 💪💪💪💪💪💪💪💪💪💪 
@@ -179,11 +223,25 @@ Use the carMaker function below to do the following:
 */
 
 
-function carMaker(/* code here */) {
-    /* code here */
-    
+function carMaker(model, status, price, mileage, dateReceived, registrationYear) {
+  let car = {
+    model, 
+    status, 
+    price, 
+    mileage, 
+    dateReceived, 
+    registrationYear,
+    drive: function(miles) {
+      this.mileage += miles;
+    }
+  };
+  return car;
 }
 
+let car1 = carMaker('sedan', 'used', '15000', 1034, '2017-6-27', 2016);
+car1.drive(6);
+
+console.log(car1.mileage);
 
 /* 🛑🛑🛑🛑🛑 Please do not modify anything below this line 🛑🛑🛑🛑🛑 */
 function foo(){
